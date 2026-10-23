@@ -1,0 +1,376 @@
+---
+import Base from '../layouts/Base.astro';
+import PublicationItem from '../components/PublicationItem.astro';
+import { pagePath, t, useTranslations, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+import { publications } from '../data/publications';
+import {
+  awards,
+  courses,
+  education,
+  languagesSpoken,
+  metrics,
+  positions,
+  projects,
+  reviewerFor,
+  service,
+  summary,
+  supervision,
+  training,
+  type Entry,
+} from '../data/cv';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const tr = useTranslations(lang);
+const range = (e: { start: number; end?: number | null }) =>
+  e.end === undefined ? `${e.start}` : `${e.start}–${e.end ?? tr('cv.present')}`;
+
+const sections: { id: string; title: string; entries: Entry[] }[] = [
+  { id: 'positions', title: tr('cv.positions'), entries: positions },
+  { id: 'education', title: tr('cv.education'), entries: education },
+];
+---
+
+<Base lang={lang} route="cv" title="CV">
+  <header class="page-header">
+    <div class="container head">
+      <div>
+        <p class="eyebrow">Curriculum vitae</p>
+        <h1>{profile.fullName}</h1>
+        <p class="muted contact">
+          {t(profile.title, lang)}, {t(profile.institution, lang)}<br />
+          <a href={`mailto:${profile.email}`}>{profile.email}</a>{' · '}
+          <a href={profile.links.orcid}>ORCID 0000-0003-4882-2188</a>
+        </p>
+      </div>
+      <button class="btn no-print" type="button" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"></path></svg>
+        {tr('cv.download')}
+      </button>
+    </div>
+  </header>
+
+  <div class="container cv">
+    <section class="block">
+      <h2>{tr('cv.summary')}</h2>
+      <div>{summary.map((p) => <p>{t(p, lang)}</p>)}</div>
+    </section>
+
+    {
+      sections.map((s) => (
+        <section class="block" id={s.id}>
+          <h2>{s.title}</h2>
+          <ol class="entries">
+            {s.entries.map((e) => (
+              <li class="entry">
+                <span class="when">{range(e)}</span>
+                <div>
+                  <h3>{t(e.title, lang)}</h3>
+                  {e.org && (
+                    <p class="org">
+                      {t(e.org, lang)}
+                      {e.place && <span class="muted"> · {t(e.place, lang)}</span>}
+                    </p>
+                  )}
+                  {e.details && (
+                    <ul>
+                      {e.details.map((d) => (
+                        <li>{t(d, lang)}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+
+    <section class="block">
+      <h2>{tr('cv.projects')}</h2>
+      <ol class="entries">
+        {
+          projects.map((p) => (
+            <li class="entry">
+              <span class="when">{range(p)}</span>
+              <div>
+                <h3>
+                  {p.name}: {t(p.title, lang)}
+                </h3>
+                <p class="org">
+                  {t(p.role, lang)} · {t(p.funder, lang)}
+                  {p.amount && <span class="muted"> · {p.amount}</span>}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>{tr('cv.awards')}</h2>
+      <ol class="entries">
+        {
+          awards.map((e) => (
+            <li class="entry">
+              <span class="when">{range(e)}</span>
+              <div>
+                <h3>{t(e.title, lang)}</h3>
+                {e.org && <p class="org">{t(e.org, lang)}</p>}
+                {e.details && <p class="muted small">{e.details.map((d) => t(d, lang))}</p>}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>{tr('cv.teaching')}</h2>
+      <ol class="entries">
+        {
+          courses.map((c) => (
+            <li class="entry">
+              <span class="when">{range(c)}</span>
+              <div>
+                <h3>
+                  {c.code}: {t(c.name, lang)}
+                </h3>
+                <p class="org">
+                  {t(c.role, lang)}
+                  {c.students && (
+                    <span class="muted">
+                      {' '}
+                      · ~{c.students} {tr('teaching.students')}
+                    </span>
+                  )}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>{tr('cv.supervision')}</h2>
+      <ol class="entries">
+        {
+          supervision.phd.map((s) => (
+            <li class="entry">
+              <span class="when">{range(s)}</span>
+              <div>
+                <h3>{s.name}</h3>
+                <p class="org">
+                  {lang === 'no' ? 'Ph.d.-kandidat' : 'PhD candidate'} · {t(s.role, lang)}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+        {
+          supervision.msc.map((s) => (
+            <li class="entry">
+              <span class="when" />
+              <div>
+                <p class="org">{t(s.text, lang)}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>{tr('cv.service')}</h2>
+      <ol class="entries">
+        {
+          service.map((e) => (
+            <li class="entry">
+              <span class="when">{range(e)}</span>
+              <div>
+                <h3>{t(e.title, lang)}</h3>
+                {e.org && <p class="org">{t(e.org, lang)}</p>}
+              </div>
+            </li>
+          ))
+        }
+        <li class="entry">
+          <span class="when">2020–</span>
+          <div>
+            <h3>{tr('cv.reviewing')}</h3>
+            <p class="org">{tr('cv.reviewer')}: {reviewerFor.join(', ')}</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>{tr('cv.training')}</h2>
+      <ol class="entries">
+        {
+          training.map((e) => (
+            <li class="entry">
+              <span class="when">{range(e)}</span>
+              <div>
+                <h3>{t(e.title, lang)}</h3>
+                {e.org && <p class="org">{t(e.org, lang)}</p>}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>{tr('cv.languages')}</h2>
+      <ul class="plain">
+        {
+          languagesSpoken.map((l) => (
+            <li>
+              <strong>{t(l.name, lang)}</strong> – {t(l.level, lang).toLowerCase()}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>{tr('cv.publications')}</h2>
+      <div>
+        <p class="muted">
+          {tr('cv.metrics', { citations: metrics.citations, h: metrics.hIndex })}
+          <a class="no-print" href={pagePath('publications', lang)}>{tr('cv.fullList')}</a>
+        </p>
+        <div class="pubs">
+          {publications.map((pub) => <PublicationItem pub={pub} lang={lang} />)}
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  .contact {
+    margin: 0;
+  }
+  .cv {
+    padding-bottom: 2rem;
+  }
+  .block {
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    gap: 1rem clamp(1.5rem, 4vw, 3rem);
+    padding-block: 2.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .block:last-child {
+    border-bottom: 0;
+  }
+  .block h2 {
+    font-size: 1.35rem;
+    margin: 0;
+  }
+  .entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.4rem;
+  }
+  .entry {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .when {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    padding-top: 0.1rem;
+  }
+  .entry h3 {
+    font-family: var(--font-sans);
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    margin: 0 0 0.15rem;
+  }
+  .org {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .small {
+    font-size: 0.9rem;
+    margin: 0.25rem 0 0;
+  }
+  .entry ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.1rem;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .entry li + li {
+    margin-top: 0.2rem;
+  }
+  .plain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pubs :global(.pub:first-child) {
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 760px) {
+    .block {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .entry {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.15rem;
+    }
+  }
+
+  @media print {
+    :global(.site-header),
+    :global(.site-footer),
+    :global(.skip-link),
+    .no-print {
+      display: none !important;
+    }
+    :global(body) {
+      font-size: 10.5pt;
+      background: #fff;
+      color: #000;
+    }
+    .page-header {
+      padding-top: 0;
+    }
+    .block {
+      padding-block: 1rem;
+      break-inside: auto;
+    }
+    .entry {
+      break-inside: avoid;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+</style>

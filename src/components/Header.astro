@@ -1,0 +1,224 @@
+---
+import { navOrder, pagePath, useTranslations, type Lang, type RouteKey } from '../i18n';
+import { profile } from '../data/profile';
+
+interface Props {
+  lang: Lang;
+  route: RouteKey;
+}
+
+const { lang, route } = Astro.props;
+const tr = useTranslations(lang);
+const otherLang: Lang = lang === 'en' ? 'no' : 'en';
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={pagePath('home', lang)} aria-current={route === 'home' ? 'page' : undefined}>
+      <span class="mark" aria-hidden="true">TH</span>
+      <span class="name">{profile.name}</span>
+    </a>
+
+    <nav id="site-nav" class="nav" aria-label={tr('nav.menu')}>
+      <ul>
+        {
+          navOrder.map((key) => (
+            <li>
+              <a href={pagePath(key, lang)} aria-current={route === key ? 'page' : undefined}>
+                {tr(`nav.${key}`)}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="tools">
+      <a
+        class="lang"
+        href={pagePath(route, otherLang)}
+        hreflang={otherLang === 'no' ? 'nb' : 'en'}
+        lang={otherLang === 'no' ? 'nb' : 'en'}
+        aria-label={tr('lang.otherLabel')}
+      >
+        {otherLang === 'no' ? 'NO' : 'EN'}
+      </a>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label={tr('theme.toggle')}>
+        <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+        <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+      </button>
+      <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label={tr('nav.menu')}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const root = document.documentElement;
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const current =
+      root.dataset.theme ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = current === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
+  });
+
+  const menuBtn = document.getElementById('menu-toggle');
+  const nav = document.getElementById('site-nav');
+  menuBtn?.addEventListener('click', () => {
+    const open = menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.setAttribute('aria-expanded', String(!open));
+    nav?.classList.toggle('open', !open);
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 4rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9px;
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .nav {
+    margin-left: auto;
+  }
+  .nav ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav a {
+    display: block;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  .nav a:hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .nav a[aria-current='page'] {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .lang,
+  .icon-btn {
+    display: grid;
+    place-items: center;
+    height: 2.25rem;
+    min-width: 2.25rem;
+    padding: 0 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .icon-btn {
+    padding: 0;
+  }
+  .lang:hover,
+  .icon-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .moon {
+    display: none;
+  }
+  :global(:root[data-theme='dark']) .sun {
+    display: none;
+  }
+  :global(:root[data-theme='dark']) .moon {
+    display: block;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .sun {
+      display: none;
+    }
+    :global(:root:not([data-theme='light'])) .moon {
+      display: block;
+    }
+  }
+  .menu-btn {
+    display: none;
+  }
+
+  @media (max-width: 760px) {
+    .bar {
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .tools {
+      margin-left: auto;
+    }
+    .menu-btn {
+      display: grid;
+    }
+    .nav {
+      order: 3;
+      flex-basis: 100%;
+      display: none;
+      margin: 0;
+      padding-bottom: 0.75rem;
+    }
+    .nav:global(.open) {
+      display: block;
+    }
+    .nav ul {
+      flex-direction: column;
+    }
+    .nav a {
+      padding: 0.65rem 0.75rem;
+      border-radius: 10px;
+    }
+  }
+</style>

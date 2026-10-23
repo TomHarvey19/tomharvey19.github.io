@@ -1,0 +1,118 @@
+---
+import { useTranslations, type Lang } from '../i18n';
+import { selfPattern, type Publication } from '../data/publications';
+
+interface Props {
+  pub: Publication;
+  lang: Lang;
+  showYear?: boolean;
+}
+
+const { pub, lang, showYear = true } = Astro.props;
+const tr = useTranslations(lang);
+
+// Long author lists: keep the first few, me, and the last author.
+type Slot = { name: string } | { gap: number };
+let shown: Slot[] = pub.authors.map((name) => ({ name }));
+if (pub.authors.length > 10) {
+  const keep = new Set([0, 1, 2, pub.authors.length - 1]);
+  pub.authors.forEach((a, i) => selfPattern.test(a) && keep.add(i));
+  shown = [];
+  let skipped = 0;
+  pub.authors.forEach((name, i) => {
+    if (keep.has(i)) {
+      if (skipped) shown.push({ gap: skipped });
+      skipped = 0;
+      shown.push({ name });
+    } else skipped++;
+  });
+}
+
+const citation = [pub.venue, pub.volume && (pub.issue ? `${pub.volume}(${pub.issue})` : pub.volume), pub.pages]
+  .filter(Boolean)
+  .join(', ');
+---
+
+<article class="pub">
+  {showYear && <span class="year">{pub.year}</span>}
+  <div>
+    <h3 class="title">
+      <a href={`https://doi.org/${pub.doi}`}>{pub.title}</a>
+    </h3>
+    <p class="authors">
+      {
+        shown.map((s, i) => (
+          <>
+            {i > 0 && ', '}
+            {'gap' in s ? (
+              <span class="muted">… </span>
+            ) : selfPattern.test(s.name) ? (
+              <strong>{s.name}</strong>
+            ) : (
+              s.name
+            )}
+            {'name' in s && pub.coFirst?.includes(s.name) && <sup title={tr('pubs.coFirst')}>*</sup>}
+          </>
+        ))
+      }
+    </p>
+    <p class="venue">
+      <em>{citation}</em>
+      {pub.type === 'preprint' && <span class="tag">Preprint</span>}
+    </p>
+  </div>
+</article>
+
+<style>
+  .pub {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1.25rem;
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--border);
+  }
+  .pub:first-child {
+    border-top: 0;
+  }
+  .year {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--muted);
+    padding-top: 0.15rem;
+    min-width: 2.75rem;
+  }
+  .title {
+    font-family: var(--font-sans);
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0;
+    margin: 0 0 0.3rem;
+  }
+  .title a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .title a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .authors,
+  .venue {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .authors strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .venue {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.15rem;
+  }
+</style>

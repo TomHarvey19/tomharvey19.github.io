@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { pagePath, ui } from '../i18n';
+---
+
+<Base lang="en" route="home" title={ui.en['notfound.title']}>
+  <div class="container section narrow">
+    <p class="eyebrow">404</p>
+    <h1>{ui.en['notfound.title']}</h1>
+    <p class="lede">{ui.en['notfound.text']}</p>
+    <p lang="nb" class="muted">{ui.no['notfound.title']}. {ui.no['notfound.text']}</p>
+    <p>
+      <a class="btn btn-primary" href={pagePath('home', 'en')}>{ui.en['notfound.home']}</a>
+      <a class="btn" href={pagePath('home', 'no')} lang="nb">{ui.no['notfound.home']}</a>
+    </p>
+  </div>
+</Base>

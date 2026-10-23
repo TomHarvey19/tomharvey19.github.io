@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { htmlLang, languages, pagePath, t, useTranslations, type Lang, type RouteKey } from '../i18n';
+import { profile } from '../data/profile';
+
+interface Props {
+  lang: Lang;
+  route: RouteKey;
+  title?: string;
+  description?: string;
+}
+
+const { lang, route, title, description } = Astro.props;
+const tr = useTranslations(lang);
+const pageTitle = title ? `${title} · ${profile.name}` : `${profile.name} · ${t(profile.field, lang)}`;
+const pageDescription = description ?? tr('site.description');
+const site = Astro.site!;
+const canonical = new URL(pagePath(route, lang), site).href;
+const alternates = (Object.keys(languages) as Lang[]).map((l) => ({
+  hreflang: htmlLang[l],
+  href: new URL(pagePath(route, l), site).href,
+}));
+---
+
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(pagePath(route, 'en'), site).href} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'no' ? 'nb_NO' : 'en_GB'} />
+    <meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1117" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{tr('skip')}</a>
+    <Header lang={lang} route={route} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>
+
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;
+  }
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: var(--text);
+    color: var(--bg);
+    border-radius: 8px;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+</style>

@@ -1,0 +1,123 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, useTranslations, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+import { courses, supervision } from '../data/cv';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const tr = useTranslations(lang);
+const range = (start: number, end?: number | null) =>
+  end === undefined ? `${start}` : `${start}–${end ?? tr('cv.present')}`;
+---
+
+<Base lang={lang} route="teaching" title={tr('nav.teaching')}>
+  <header class="page-header">
+    <div class="container">
+      <p class="eyebrow">{t(profile.institution, lang)}</p>
+      <h1>{tr('nav.teaching')}</h1>
+    </div>
+  </header>
+
+  <div class="container section">
+    <section>
+      <h2>{tr('teaching.courses')}</h2>
+      <div class="courses">
+        {
+          courses.map((c) => (
+            <article class="card course">
+              <p class="code">{c.code}</p>
+              <h3>{t(c.name, lang)}</h3>
+              <p class="muted">
+                {t(c.role, lang)} · {range(c.start, c.end)}
+              </p>
+              {c.students && (
+                <p class="students">
+                  ~{c.students} {tr('teaching.students')}
+                </p>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2>{tr('teaching.supervision')}</h2>
+      <div class="card">
+        <h3>{lang === 'no' ? 'Ph.d.' : 'PhD'}</h3>
+        <ul>
+          {
+            supervision.phd.map((s) => (
+              <li>
+                <strong>{s.name}</strong> – {t(s.role, lang).toLowerCase()}, {range(s.start, s.end)}
+              </li>
+            ))
+          }
+        </ul>
+        <h3>{lang === 'no' ? 'Master' : 'MSc'}</h3>
+        <ul>{supervision.msc.map((s) => <li>{t(s.text, lang)}</li>)}</ul>
+      </div>
+    </section>
+
+    <section id="prospective">
+      <div class="card cta">
+        <h2>{tr('teaching.prospective')}</h2>
+        <p>{tr('teaching.prospectiveText')}</p>
+        <a class="btn btn-primary" href={`mailto:${profile.email}`}>{profile.email}</a>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  section + section {
+    margin-top: 3.5rem;
+  }
+  #prospective {
+    scroll-margin-top: 5rem;
+  }
+  .courses {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+  }
+  .course h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .course p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .code {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin-bottom: 0.4rem !important;
+  }
+  .students {
+    margin-top: 0.75rem !important;
+    font-weight: 500;
+  }
+  ul {
+    margin: 0 0 1.5rem;
+    padding-left: 1.2rem;
+  }
+  ul:last-child {
+    margin-bottom: 0;
+  }
+  li + li {
+    margin-top: 0.35rem;
+  }
+  .cta {
+    background: var(--surface-2);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .cta p {
+    max-width: 44rem;
+  }
+</style>

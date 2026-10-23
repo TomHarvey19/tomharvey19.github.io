@@ -1,0 +1,61 @@
+---
+import { t, useTranslations, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+import ProfileLinks from './ProfileLinks.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const tr = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container grid">
+    <div>
+      <p class="name">{profile.fullName}</p>
+      <p class="muted">
+        {t(profile.title, lang)}, {t(profile.field, lang)}<br />
+        {t(profile.institution, lang)}<br />
+        {t(profile.location, lang)}
+      </p>
+    </div>
+    <div class="right">
+      <ProfileLinks lang={lang} />
+      <p class="muted small">© {year} {profile.name}. {tr('footer.updated')}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface-2);
+    padding-block: 2.5rem;
+    font-size: 0.95rem;
+  }
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem 3rem;
+  }
+  .name {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    margin-bottom: 0.4rem;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .small {
+    font-size: 0.85rem;
+    margin: 0;
+  }
+</style>

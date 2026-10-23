@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import PublicationItem from '../components/PublicationItem.astro';
+import { t, useTranslations, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+import { publications } from '../data/publications';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const tr = useTranslations(lang);
+
+const preprints = publications.filter((p) => p.type === 'preprint');
+const articles = publications.filter((p) => p.type === 'article');
+const years = [...new Set(articles.map((p) => p.year))];
+---
+
+<Base lang={lang} route="publications" title={tr('nav.publications')}>
+  <header class="page-header">
+    <div class="container">
+      <p class="eyebrow">{t(profile.field, lang)}</p>
+      <h1>{tr('nav.publications')}</h1>
+      <p class="lede">{tr('pubs.intro')}</p>
+      <p class="profiles">
+        {tr('pubs.profiles')}
+        <a href={profile.links.scholar}>Google Scholar</a> ·
+        <a href={profile.links.orcid}>ORCID</a>
+      </p>
+    </div>
+  </header>
+
+  <div class="container section">
+    <section>
+      <h2>{tr('pubs.preprints')}</h2>
+      <div class="card list">
+        {preprints.map((pub) => <PublicationItem pub={pub} lang={lang} />)}
+      </div>
+    </section>
+
+    <section>
+      <h2>{tr('pubs.articles')}</h2>
+      {
+        years.map((year) => (
+          <div class="year-group">
+            <h3 class="year">{year}</h3>
+            <div class="card list">
+              {articles
+                .filter((p) => p.year === year)
+                .map((pub) => (
+                  <PublicationItem pub={pub} lang={lang} showYear={false} />
+                ))}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+  </div>
+</Base>
+
+<style>
+  .profiles {
+    color: var(--muted);
+    margin: 0;
+  }
+  section + section {
+    margin-top: 3.5rem;
+  }
+  .list {
+    padding-block: 0.4rem;
+  }
+  .year-group {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .year {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--muted);
+    padding-top: 1rem;
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+  }
+  @media (max-width: 640px) {
+    .year-group {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.25rem;
+    }
+    .year {
+      position: static;
+      padding-top: 0.5rem;
+      margin: 0;
+    }
+  }
+</style>

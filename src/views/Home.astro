@@ -1,0 +1,282 @@
+---
+import Base from '../layouts/Base.astro';
+import ProfileLinks from '../components/ProfileLinks.astro';
+import PublicationItem from '../components/PublicationItem.astro';
+import { pagePath, t, useTranslations, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+import { themes } from '../data/research';
+import { publications } from '../data/publications';
+import { projects } from '../data/cv';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const tr = useTranslations(lang);
+const featured = publications.filter((p) => p.featured);
+
+// Decorative 96-well plate: a nod to plate-based screening. Deterministic "hits".
+const rows = 8;
+const cols = 12;
+const hits = new Set([5, 14, 27, 30, 41, 52, 58, 63, 71, 79, 86, 90]);
+const strong = new Set([27, 58, 86]);
+---
+
+<Base lang={lang} route="home">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">{tr('home.eyebrow')}</p>
+        <h1>{profile.fullName}</h1>
+        <p class="role">
+          {t(profile.title, lang)} · {t(profile.unit, lang)}, {t(profile.institution, lang)}
+        </p>
+        <p class="lede">{t(profile.intro, lang)}</p>
+        <div class="actions">
+          <a class="btn btn-primary" href={`mailto:${profile.email}`}>{tr('home.contact')}</a>
+          <a class="btn" href={pagePath('cv', lang)}>{tr('home.viewCv')}</a>
+        </div>
+        <ProfileLinks lang={lang} />
+      </div>
+      <div class="plate" aria-hidden="true">
+        <svg viewBox={`0 0 ${cols * 28 + 24} ${rows * 28 + 24}`}>
+          <rect x="1" y="1" width={cols * 28 + 22} height={rows * 28 + 22} rx="18" class="plate-body"></rect>
+          {
+            Array.from({ length: rows * cols }, (_, i) => (
+              <circle
+                cx={26 + (i % cols) * 28}
+                cy={26 + Math.floor(i / cols) * 28}
+                r="10"
+                class={strong.has(i) ? 'well strong' : hits.has(i) ? 'well hit' : 'well'}
+                style={`--d:${(i % 7) * 0.4}s`}
+              />
+            ))
+          }
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section focus">
+    <div class="container">
+      <div class="section-head">
+        <h2>{tr('home.focus')}</h2>
+        <a class="arrow-link" href={pagePath('research', lang)}>{tr('home.allResearch')}</a>
+      </div>
+      <ol class="themes">
+        {
+          themes.map((theme, i) => (
+            <li>
+              <a class="theme card" href={pagePath('research', lang, `#${theme.id}`)}>
+                <span class="num">0{i + 1}</span>
+                <h3>{t(theme.title, lang)}</h3>
+                <p class="muted">{t(theme.short, lang)}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section split-section">
+    <div class="container split">
+      <div>
+        <div class="section-head">
+          <h2>{tr('home.selected')}</h2>
+          <a class="arrow-link" href={pagePath('publications', lang)}>{tr('home.allPubs')}</a>
+        </div>
+        <div class="card pubs">
+          {featured.map((pub) => <PublicationItem pub={pub} lang={lang} />)}
+        </div>
+      </div>
+      <aside>
+        <h2>{tr('home.projects')}</h2>
+        <div class="projects">
+          {
+            projects.map((p) => (
+              <div class="card project">
+                <p class="eyebrow">
+                  {p.start}– · {t(p.role, lang)}
+                </p>
+                <h3>{p.name}</h3>
+                <p class="muted">{t(p.title, lang)}</p>
+                <p class="funder">{t(p.funder, lang)}</p>
+              </div>
+            ))
+          }
+          <div class="card students">
+            <h3>{tr('home.students')}</h3>
+            <p class="muted">{tr('home.studentsText')}</p>
+            <a class="arrow-link" href={pagePath('teaching', lang, '#prospective')}>{tr('teaching.prospective')}</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-top: clamp(3rem, 9vw, 6.5rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    border-bottom: 1px solid var(--border);
+    background:
+      radial-gradient(60rem 30rem at 85% 0%, var(--accent-soft), transparent 60%),
+      var(--bg);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .role {
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1.75rem 0 1.25rem;
+  }
+  .plate svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .plate-body {
+    fill: var(--surface);
+    stroke: var(--border);
+    stroke-width: 2;
+  }
+  .well {
+    fill: var(--surface-2);
+    stroke: var(--border);
+    stroke-width: 1.5;
+  }
+  .well.hit {
+    fill: color-mix(in srgb, var(--accent) 35%, var(--surface));
+    stroke: none;
+  }
+  .well.strong {
+    fill: var(--accent);
+    stroke: none;
+    animation: pulse 3.2s ease-in-out infinite;
+    animation-delay: var(--d);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.18);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .well.strong {
+      animation: none;
+    }
+  }
+
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-head h2 {
+    margin: 0;
+  }
+
+  .themes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+  }
+  .theme {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+  .theme:hover {
+    color: var(--text);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .theme h3 {
+    font-size: 1.25rem;
+  }
+  .theme p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .num {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .split-section {
+    padding-top: 0;
+  }
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .pubs {
+    padding-block: 0.4rem;
+  }
+  aside h2 {
+    margin-bottom: 1.5rem;
+  }
+  .projects {
+    display: grid;
+    gap: 1rem;
+  }
+  .project h3,
+  .students h3 {
+    margin-bottom: 0.35rem;
+  }
+  .project p,
+  .students p {
+    font-size: 0.95rem;
+  }
+  .project .eyebrow {
+    margin-bottom: 0.5rem;
+  }
+  .funder {
+    margin: 0;
+    font-weight: 500;
+  }
+  .students {
+    background: var(--surface-2);
+  }
+
+  @media (max-width: 860px) {
+    .hero-grid,
+    .split {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .plate {
+      display: none;
+    }
+  }
+</style>
