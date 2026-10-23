@@ -6,24 +6,27 @@ import raw from './screen.csv?raw';
  *
  * Replace screen.csv with real results. Columns:
  *   gene   – gene name
- *   score  – gene-level effect, e.g. log2 fold change or MAGeCK beta (negative = depleted)
+ *   score  – gene-level effect, e.g. MAGeCK MLE beta or log2 fold change (negative = depleted)
  *   fdr    – optional; genes with fdr <= hitFdr are highlighted
  */
 export const screen = {
-  /** Set to false once screen.csv holds real data. Shows an "illustrative data" note while true. */
-  illustrative: true,
+  /** Set to true to show an "illustrative data" note (for placeholder data). */
+  illustrative: false,
   title: {
-    en: 'Genome-wide CRISPR knockout screen',
-    no: 'Genomvid CRISPR-knockout-screen',
+    en: 'Genome-wide CRISPR knockout screen in pig cells',
+    no: 'Genomvid CRISPR-knockout-screen i griseceller',
   } satisfies Localized,
+  /** {genes} and {depleted} are filled in from the data. */
   caption: {
-    en: 'Each dot is a gene, ranked by how its guide RNAs change in abundance across the pooled screen. Genes whose loss kills the cells drop out on the left.',
-    no: 'Hvert punkt er et gen, rangert etter hvor mye guide-RNA-ene endrer seg i den samlede screenen. Gener som cellene ikke kan klare seg uten, faller ut til venstre.',
+    en: 'Each dot is one of {genes} genes, ranked by how quickly its guide RNAs dropped out of a pooled population of PK-15 cells over time. The {depleted} genes highlighted on the left (FDR < 5%) are needed for the cells to grow.',
+    no: 'Hvert punkt er ett av {genes} gener, rangert etter hvor raskt guide-RNA-ene forsvant fra en samlet populasjon av PK-15-celler over tid. De {depleted} genene som er uthevet til venstre (FDR < 5 %), trengs for at cellene skal vokse.',
   } satisfies Localized,
-  scoreLabel: { en: 'log₂ fold change', no: 'log₂ endring' } satisfies Localized,
+  scoreLabel: { en: 'β, change over time', no: 'β, endring over tid' } satisfies Localized,
   hitFdr: 0.05,
-  /** Genes to name on the plot (only shown when illustrative is false). */
+  /** Genes to name on the plot. */
   labels: [] as string[],
+  /** Where the data comes from; linked under the figure. */
+  source: { label: 'Harvey et al. 2025, bioRxiv', doi: '10.1101/2025.02.28.640817' },
 };
 
 export interface ScreenGene {

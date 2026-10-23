@@ -19,7 +19,13 @@ All content lives in `src/data/`. Text that appears in both languages is written
 
 **Adding a paper:** copy an existing entry at the top of `publications` in `src/data/publications.ts` and fill it in. Set `featured: true` to show it on the front page, and list the research `themes` it belongs to so it appears on the Research page.
 
-**Screen figure:** replace `src/data/screen.csv` with gene-level results (columns `gene,score,fdr`; `fdr` is optional). Genes with `fdr` at or below `hitFdr` in `src/data/screen.ts` are highlighted. Then set `illustrative: false` to remove the "Illustrative data" note, and optionally list genes in `labels` to name them on the plot. The file currently holds made-up placeholder data.
+**Screen figure:** the front page plots gene-level results from the PK-15 essential-gene screen, stored in `src/data/screen.csv` (columns `gene,score,fdr`). To use a different screen, convert its MAGeCK output with
+
+```sh
+python3 scripts/mageck-to-screen.py path/to/gene_summary.txt
+```
+
+then update the title, caption and source in `src/data/screen.ts`. Genes with `fdr` at or below `hitFdr` are highlighted; list gene names in `labels` to name them on the plot.
 
 ## Running locally
 
