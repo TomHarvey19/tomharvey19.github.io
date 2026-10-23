@@ -29,6 +29,13 @@ const x = (rank: number) => pad.l + (rank / Math.max(1, n - 1)) * (W - pad.l - p
 const y = (v: number) => pad.t + ((hi - v) / (hi - lo || 1)) * (H - pad.t - pad.b);
 
 const labelled = screen.illustrative ? [] : points.filter((p) => screen.labels.includes(p.gene));
+
+// Depleted genes crowd into a few pixels at the bottom of the curve, so their
+// names are stacked in a column beside it, most depleted at the bottom.
+const callout = labelled.filter((p) => p.score < 0).sort((a, b) => a.score - b.score);
+const calloutX = pad.l + 64;
+const calloutY = (i: number) => H - pad.b - 6 - i * 15;
+const otherLabels = labelled.filter((p) => p.score >= 0);
 const depleted = sorted.filter((g) => isHit(g) && g.score < 0).length;
 const enriched = sorted.filter((g) => isHit(g) && g.score > 0).length;
 
@@ -39,8 +46,8 @@ const caption = t(screen.caption, lang)
 
 const text =
   lang === 'no'
-    ? { rank: 'genrangering', dep: 'utarmet', enr: 'anriket', illus: 'Illustrerende data', source: 'Data' }
-    : { rank: 'gene rank', dep: 'depleted', enr: 'enriched', illus: 'Illustrative data', source: 'Data' };
+    ? { rank: 'genrangering', dep: 'utarmet', enr: 'anriket', illus: 'Illustrerende data', source: 'Data', essential: 'Essensielle gener' }
+    : { rank: 'gene rank', dep: 'depleted', enr: 'enriched', illus: 'Illustrative data', source: 'Data', essential: 'Essential genes' };
 ---
 
 <figure class="screen">
@@ -66,8 +73,32 @@ const text =
       ))
     }
     {
-      labelled.map((p) => (
-        <text class="gene" x={(x(p.rank) + (p.score < 0 ? 7 : -7)).toFixed(1)} y={(y(p.score) + 4).toFixed(1)} text-anchor={p.score < 0 ? 'start' : 'end'}>
+      callout.length > 0 && (
+        <g class="callout">
+          {callout.map((p, i) => (
+            <>
+              <line
+                class="leader"
+                x1={(x(p.rank) + 3).toFixed(1)}
+                y1={y(p.score).toFixed(1)}
+                x2={calloutX - 4}
+                y2={calloutY(i) - 4}
+              />
+              <circle class="ring" cx={x(p.rank).toFixed(1)} cy={y(p.score).toFixed(1)} r="4.2" />
+              <text class="gene" x={calloutX} y={calloutY(i)}>
+                {p.gene}
+              </text>
+            </>
+          ))}
+          <text class="callout-title" x={calloutX} y={calloutY(callout.length) - 2}>
+            {text.essential}
+          </text>
+        </g>
+      )
+    }
+    {
+      otherLabels.map((p) => (
+        <text class="gene" x={(x(p.rank) - 7).toFixed(1)} y={(y(p.score) + 4).toFixed(1)} text-anchor="end">
           {p.gene}
         </text>
       ))
@@ -159,6 +190,22 @@ const text =
   .gene {
     fill: var(--text);
     font-style: italic;
+  }
+  .callout-title {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    fill: var(--accent);
+  }
+  .leader {
+    stroke: var(--muted);
+    stroke-opacity: 0.5;
+    stroke-width: 0.8;
+  }
+  .ring {
+    fill: none;
+    stroke: var(--text);
+    stroke-width: 1.2;
   }
   .caption {
     margin: 0.5rem 0 0;

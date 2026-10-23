@@ -24,7 +24,7 @@ export const screen = {
   scoreLabel: { en: 'β, change over time', no: 'β, endring over tid' } satisfies Localized,
   hitFdr: 0.05,
   /** Genes to name on the plot. */
-  labels: [] as string[],
+  labels: ['BUB3', 'RACK1', 'RNGTT', 'RUVBL2', 'EEF2', 'CCT8', 'EXOSC2'] as string[],
   /** Where the data comes from; linked under the figure. */
   source: { label: 'Harvey et al. 2025, bioRxiv', doi: '10.1101/2025.02.28.640817' },
 };
