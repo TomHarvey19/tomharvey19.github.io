@@ -25,7 +25,7 @@ export const profile = {
   },
   /** One-paragraph introduction used on the front page. */
   intro: {
-    en: 'I study how genetic variation gives rise to observable traits – and how that knowledge can make food production more sustainable, improve animal welfare and strengthen disease resistance. I develop high-throughput tools, including genome-wide CRISPR screens and multi-omics approaches, to link genotype to phenotype in farmed animals such as Atlantic salmon, pigs and cattle.',
-    no: 'Jeg forsker på hvordan genetisk variasjon gir opphav til egenskaper vi kan observere – og hvordan den kunnskapen kan gjøre matproduksjonen mer bærekraftig, bedre dyrevelferden og styrke motstandskraften mot sykdom. Jeg utvikler metoder med høy gjennomstrømning, blant annet genomvide CRISPR-screener og multiomikk, for å koble genotype til fenotype hos husdyr og oppdrettsfisk som atlantisk laks, gris og storfe.',
+    en: 'I study how genetic variation gives rise to observable traits – and how that knowledge can make food production more sustainable, improve animal welfare and strengthen disease resistance. I develop high-throughput tools, including genome-wide pooled CRISPR screens and multi-omics approaches, to link genotype to phenotype in farmed animals such as Atlantic salmon, pigs and cattle.',
+    no: 'Jeg forsker på hvordan genetisk variasjon gir opphav til egenskaper vi kan observere – og hvordan den kunnskapen kan gjøre matproduksjonen mer bærekraftig, bedre dyrevelferden og styrke motstandskraften mot sykdom. Jeg utvikler metoder med høy gjennomstrømning, blant annet genomvide, samlede (pooled) CRISPR-screener og multiomikk, for å koble genotype til fenotype hos husdyr og oppdrettsfisk som atlantisk laks, gris og storfe.',
   } satisfies Localized,
 };

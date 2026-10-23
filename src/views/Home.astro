@@ -7,6 +7,7 @@ import { profile } from '../data/profile';
 import { themes } from '../data/research';
 import { publications } from '../data/publications';
 import { projects } from '../data/cv';
+import ScreenPlot from '../components/ScreenPlot.astro';
 
 interface Props {
   lang: Lang;
@@ -16,11 +17,6 @@ const { lang } = Astro.props;
 const tr = useTranslations(lang);
 const featured = publications.filter((p) => p.featured);
 
-// Decorative 96-well plate: a nod to plate-based screening. Deterministic "hits".
-const rows = 8;
-const cols = 12;
-const hits = new Set([5, 14, 27, 30, 41, 52, 58, 63, 71, 79, 86, 90]);
-const strong = new Set([27, 58, 86]);
 ---
 
 <Base lang={lang} route="home">
@@ -39,21 +35,8 @@ const strong = new Set([27, 58, 86]);
         </div>
         <ProfileLinks lang={lang} />
       </div>
-      <div class="plate" aria-hidden="true">
-        <svg viewBox={`0 0 ${cols * 28 + 24} ${rows * 28 + 24}`}>
-          <rect x="1" y="1" width={cols * 28 + 22} height={rows * 28 + 22} rx="18" class="plate-body"></rect>
-          {
-            Array.from({ length: rows * cols }, (_, i) => (
-              <circle
-                cx={26 + (i % cols) * 28}
-                cy={26 + Math.floor(i / cols) * 28}
-                r="10"
-                class={strong.has(i) ? 'well strong' : hits.has(i) ? 'well hit' : 'well'}
-                style={`--d:${(i % 7) * 0.4}s`}
-              />
-            ))
-          }
-        </svg>
+      <div class="figure">
+        <ScreenPlot lang={lang} />
       </div>
     </div>
   </section>
@@ -141,47 +124,6 @@ const strong = new Set([27, 58, 86]);
     flex-wrap: wrap;
     gap: 0.6rem;
     margin: 1.75rem 0 1.25rem;
-  }
-  .plate svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  .plate-body {
-    fill: var(--surface);
-    stroke: var(--border);
-    stroke-width: 2;
-  }
-  .well {
-    fill: var(--surface-2);
-    stroke: var(--border);
-    stroke-width: 1.5;
-  }
-  .well.hit {
-    fill: color-mix(in srgb, var(--accent) 35%, var(--surface));
-    stroke: none;
-  }
-  .well.strong {
-    fill: var(--accent);
-    stroke: none;
-    animation: pulse 3.2s ease-in-out infinite;
-    animation-delay: var(--d);
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  @keyframes pulse {
-    0%,
-    100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.18);
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .well.strong {
-      animation: none;
-    }
   }
 
   .section-head {
@@ -275,8 +217,8 @@ const strong = new Set([27, 58, 86]);
     .split {
       grid-template-columns: minmax(0, 1fr);
     }
-    .plate {
-      display: none;
+    .figure {
+      max-width: 34rem;
     }
   }
 </style>

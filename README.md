@@ -14,9 +14,12 @@ All content lives in `src/data/`. Text that appears in both languages is written
 | Research themes (Research page and front-page cards) | `src/data/research.ts` |
 | Publications | `src/data/publications.ts` |
 | CV: positions, education, projects, awards, teaching, supervision, service | `src/data/cv.ts` |
+| Front-page screen figure (data and caption) | `src/data/screen.csv`, `src/data/screen.ts` |
 | Menu labels, buttons and other interface text | `src/i18n/index.ts` |
 
 **Adding a paper:** copy an existing entry at the top of `publications` in `src/data/publications.ts` and fill it in. Set `featured: true` to show it on the front page, and list the research `themes` it belongs to so it appears on the Research page.
+
+**Screen figure:** replace `src/data/screen.csv` with gene-level results (columns `gene,score,fdr`; `fdr` is optional). Genes with `fdr` at or below `hitFdr` in `src/data/screen.ts` are highlighted. Then set `illustrative: false` to remove the "Illustrative data" note, and optionally list genes in `labels` to name them on the plot. The file currently holds made-up placeholder data.
 
 ## Running locally
 

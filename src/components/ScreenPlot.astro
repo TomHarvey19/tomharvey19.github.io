@@ -1,0 +1,159 @@
+---
+import { t, type Lang } from '../i18n';
+import { screen, screenGenes } from '../data/screen';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const W = 520;
+const H = 340;
+const pad = { l: 46, r: 14, t: 16, b: 34 };
+
+const sorted = [...screenGenes].sort((a, b) => a.score - b.score);
+const n = sorted.length;
+const isHit = (g: (typeof sorted)[number]) => g.fdr !== undefined && g.fdr <= screen.hitFdr;
+
+// Every hit is drawn; the unremarkable middle is thinned to keep the SVG small.
+const step = Math.max(1, Math.ceil(n / 500));
+const points = sorted
+  .map((g, rank) => ({ ...g, rank }))
+  .filter((g) => isHit(g) || g.rank % step === 0 || g.rank === n - 1);
+
+const lo = Math.min(...sorted.map((g) => g.score));
+const hi = Math.max(...sorted.map((g) => g.score));
+const x = (rank: number) => pad.l + (rank / Math.max(1, n - 1)) * (W - pad.l - pad.r);
+const y = (v: number) => pad.t + ((hi - v) / (hi - lo || 1)) * (H - pad.t - pad.b);
+
+const labelled = screen.illustrative ? [] : points.filter((p) => screen.labels.includes(p.gene));
+const depleted = sorted.filter((g) => isHit(g) && g.score < 0).length;
+const enriched = sorted.filter((g) => isHit(g) && g.score > 0).length;
+
+const text =
+  lang === 'no'
+    ? { rank: 'genrangering', dep: 'utarmet', enr: 'anriket', illus: 'Illustrerende data' }
+    : { rank: 'gene rank', dep: 'depleted', enr: 'enriched', illus: 'Illustrative data' };
+---
+
+<figure class="screen">
+  <figcaption class="head">
+    <span class="title">{t(screen.title, lang)}</span>
+    <span class="legend">
+      <span><i class="dep"></i>{text.dep} ({depleted})</span>
+      <span><i class="enr"></i>{text.enr} ({enriched})</span>
+    </span>
+  </figcaption>
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t(screen.caption, lang)}>
+    <line class="axis" x1={pad.l} y1={pad.t} x2={pad.l} y2={H - pad.b} />
+    <line class="axis" x1={pad.l} y1={H - pad.b} x2={W - pad.r} y2={H - pad.b} />
+    <line class="zero" x1={pad.l} y1={y(0)} x2={W - pad.r} y2={y(0)} />
+    {
+      points.map((p) => (
+        <circle
+          cx={x(p.rank).toFixed(1)}
+          cy={y(p.score).toFixed(1)}
+          r={isHit(p) ? 3.4 : 2}
+          class={isHit(p) ? (p.score < 0 ? 'dep' : 'enr') : 'bg'}
+        />
+      ))
+    }
+    {
+      labelled.map((p) => (
+        <text class="gene" x={(x(p.rank) + (p.score < 0 ? 7 : -7)).toFixed(1)} y={(y(p.score) + 4).toFixed(1)} text-anchor={p.score < 0 ? 'start' : 'end'}>
+          {p.gene}
+        </text>
+      ))
+    }
+    <text class="label" x={(pad.l + W - pad.r) / 2} y={H - 8} text-anchor="middle">{text.rank}</text>
+    <text class="label" x="14" y={(pad.t + H - pad.b) / 2} text-anchor="middle" transform={`rotate(-90 14 ${(pad.t + H - pad.b) / 2})`}>
+      {t(screen.scoreLabel, lang)}
+    </text>
+  </svg>
+  <p class="caption">
+    {t(screen.caption, lang)}
+    {screen.illustrative && <strong class="illus"> {text.illus}.</strong>}
+  </p>
+</figure>
+
+<style>
+  .screen {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.1rem 0.9rem;
+    box-shadow: var(--shadow);
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+  .title {
+    font-weight: 600;
+  }
+  .legend {
+    display: flex;
+    gap: 0.9rem;
+    color: var(--muted);
+  }
+  .legend span {
+    white-space: nowrap;
+  }
+  .legend i {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    margin-right: 0.35rem;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .axis {
+    stroke: var(--border);
+    stroke-width: 1.5;
+  }
+  .zero {
+    stroke: var(--border);
+    stroke-dasharray: 3 4;
+  }
+  circle.bg {
+    fill: color-mix(in srgb, var(--muted) 45%, transparent);
+  }
+  .dep {
+    fill: var(--accent);
+    background: var(--accent);
+  }
+  .enr {
+    fill: var(--hit-up);
+    background: var(--hit-up);
+  }
+  .label,
+  .gene {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    fill: var(--muted);
+  }
+  .gene {
+    fill: var(--text);
+    font-style: italic;
+  }
+  .caption {
+    margin: 0.5rem 0 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .illus {
+    color: var(--accent);
+    font-weight: 600;
+  }
+</style>
