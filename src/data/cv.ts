@@ -328,6 +328,7 @@ export const courses: Course[] = [
 export const supervision = {
   phd: [
     { name: 'Sigrid Hoven', start: 2026, end: null, role: { en: 'Co-supervisor', no: 'Medveileder' } },
+    { name: 'Luana Hernández Wolters', start: 2026, end: null, role: { en: 'Co-supervisor', no: 'Medveileder' } },
     { name: 'Mohammad Ali Noman Reza', start: 2021, end: 2025, role: { en: 'Co-supervisor', no: 'Medveileder' } },
   ],
   msc: [
@@ -374,8 +375,8 @@ export const training: Entry[] = [
 ];
 
 export const languagesSpoken: { name: Localized; level: Localized }[] = [
-  { name: { en: 'English', no: 'Engelsk' }, level: { en: 'Native', no: 'Morsmål' } },
-  { name: { en: 'Norwegian (bokmål)', no: 'Norsk (bokmål)' }, level: { en: 'Good', no: 'Gode kunnskaper' } },
+  { name: { en: 'English', no: 'Engelsk' }, level: { en: 'native', no: 'morsmål' } },
+  { name: { en: 'Norwegian (bokmål)', no: 'Norsk (bokmål)' }, level: { en: 'B1, intermediate (CEFR)', no: 'B1, mellomnivå (CEFR)' } },
 ];
 
 export const metrics = { citations: 261, hIndex: 10 };
