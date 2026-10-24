@@ -15,8 +15,8 @@ export const themes: ResearchTheme[] = [
   {
     id: 'crispr',
     title: {
-      en: 'Genome-wide CRISPR screening in farmed animals',
-      no: 'Genomvid CRISPR-screening i husdyr og oppdrettsfisk',
+      en: 'Genome-wide CRISPR screening in domesticated animals',
+      no: 'Genomvid CRISPR-screening i domestiserte dyr',
     },
     short: {
       en: 'Switching off every gene, one at a time, to find the ones that matter.',

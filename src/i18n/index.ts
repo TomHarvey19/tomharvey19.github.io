@@ -40,7 +40,7 @@ export function pagePath(key: RouteKey, lang: Lang, hash = ''): string {
 export const ui = {
   en: {
     'site.description':
-      'Thomas N. Harvey – researcher in functional genomics at the Norwegian University of Life Sciences (NMBU). CRISPR screening, genome editing and multi-omics in farmed animals.',
+      'Thomas N. Harvey – researcher in functional genomics at the Norwegian University of Life Sciences (NMBU). CRISPR screening, genome editing and multi-omics in domesticated animals.',
     'nav.home': 'Home',
     'nav.research': 'Research',
     'nav.publications': 'Publications',
@@ -94,7 +94,7 @@ export const ui = {
     'teaching.supervision': 'Student supervision',
     'teaching.prospective': 'Prospective students',
     'teaching.prospectiveText':
-      'I welcome master’s and PhD students interested in functional genomics, CRISPR screening, genome editing and cell-based models of farmed animals. Projects usually combine wet-lab work with bioinformatic analysis of sequencing data. If this sounds interesting, send me an email with a short note about your background and interests.',
+      'I welcome master’s and PhD students interested in functional genomics, CRISPR screening, genome editing and cell-based models of domesticated animals. Projects usually combine wet-lab work with bioinformatic analysis of sequencing data. If this sounds interesting, send me an email with a short note about your background and interests.',
     'teaching.students': 'students per semester',
     'notfound.title': 'Page not found',
     'notfound.text': 'The page you were looking for does not exist or has moved.',
@@ -102,7 +102,7 @@ export const ui = {
   },
   no: {
     'site.description':
-      'Thomas N. Harvey – forsker i funksjonell genomikk ved Norges miljø- og biovitenskapelige universitet (NMBU). CRISPR-screening, genredigering og multiomikk i husdyr og oppdrettsfisk.',
+      'Thomas N. Harvey – forsker i funksjonell genomikk ved Norges miljø- og biovitenskapelige universitet (NMBU). CRISPR-screening, genredigering og multiomikk i domestiserte dyr.',
     'nav.home': 'Hjem',
     'nav.research': 'Forskning',
     'nav.publications': 'Publikasjoner',
@@ -156,7 +156,7 @@ export const ui = {
     'teaching.supervision': 'Veiledning av studenter',
     'teaching.prospective': 'For nye studenter',
     'teaching.prospectiveText':
-      'Jeg tar gjerne imot master- og doktorgradsstudenter som er interessert i funksjonell genomikk, CRISPR-screening, genredigering og cellemodeller for husdyr og oppdrettsfisk. Prosjektene kombinerer vanligvis laboratoriearbeid med bioinformatisk analyse av sekvensdata. Høres dette spennende ut, send meg en e-post med noen ord om bakgrunnen og interessene dine.',
+      'Jeg tar gjerne imot master- og doktorgradsstudenter som er interessert i funksjonell genomikk, CRISPR-screening, genredigering og cellemodeller for domestiserte dyr. Prosjektene kombinerer vanligvis laboratoriearbeid med bioinformatisk analyse av sekvensdata. Høres dette spennende ut, send meg en e-post med noen ord om bakgrunnen og interessene dine.',
     'teaching.students': 'studenter per semester',
     'notfound.title': 'Fant ikke siden',
     'notfound.text': 'Siden du lette etter finnes ikke, eller den er flyttet.',
