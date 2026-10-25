@@ -12,6 +12,7 @@ const links = [
   { label: 'ORCID', href: profile.links.orcid, icon: 'orcid' },
   { label: 'Google Scholar', href: profile.links.scholar, icon: 'scholar' },
   { label: 'NMBU', href: t(profile.links.nmbu, lang), icon: 'nmbu' },
+  { label: 'CIGENE', href: profile.links.cigene, icon: 'cigene' },
 ];
 ---
 
@@ -31,6 +32,9 @@ const links = [
           )}
           {l.icon === 'nmbu' && (
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6" /></svg>
+          )}
+          {l.icon === 'cigene' && (
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c0 6 10 6 10 12s-10 3-10 6M17 3c0 6-10 6-10 12s10 3 10 6M8.5 7h7M8.5 17h7" /></svg>
           )}
           <span>{lang === 'no' && l.labelNo ? l.labelNo : l.label}</span>
         </a>

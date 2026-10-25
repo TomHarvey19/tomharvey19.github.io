@@ -22,6 +22,7 @@ export const profile = {
       en: 'https://www.nmbu.no/en/about/employees/thomas-nelson-harvey',
       no: 'https://www.nmbu.no/om/ansatte/thomas-nelson-harvey',
     } satisfies Localized,
+    cigene: 'https://cigene.no',
   },
   /** One-paragraph introduction used on the front page. */
   intro: {

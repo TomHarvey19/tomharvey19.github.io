@@ -546,4 +546,4 @@ export const languagesSpoken: { name: Localized; level: Localized }[] = [
   { name: { en: 'Norwegian (bokmål)', no: 'Norsk (bokmål)' }, level: { en: 'B1, intermediate (CEFR)', no: 'B1, mellomnivå (CEFR)' } },
 ];
 
-export const metrics = { citations: 261, hIndex: 10 };
+export const metrics = { citations: 284, hIndex: 11 };
