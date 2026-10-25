@@ -325,12 +325,44 @@ export const courses: Course[] = [
   },
 ];
 
+export interface Student {
+  name: string;
+  level: 'phd' | 'msc';
+  /** My role: main supervisor or co-supervisor. */
+  role: 'main' | 'co';
+  start?: number;
+  /** Year the degree was completed; null while ongoing. */
+  end: number | null;
+  /** Thesis title, in the language it was written in. */
+  title?: string;
+  /** Link to the thesis, e.g. in NMBU Brage. */
+  url?: string;
+}
+
+export const roleLabel: Record<Student['role'], Localized> = {
+  main: { en: 'Main supervisor', no: 'Hovedveileder' },
+  co: { en: 'Co-supervisor', no: 'Medveileder' },
+};
+
+export const levelLabel: Record<Student['level'], Localized> = {
+  phd: { en: 'PhD', no: 'Ph.d.' },
+  msc: { en: 'MSc', no: 'Master' },
+};
+
+// Shown on the Teaching page; current students first, then most recently finished.
+export const students: Student[] = [
+  { name: 'Sigrid Hoven', level: 'phd', role: 'co', start: 2026, end: null },
+  { name: 'Luana Hernández Wolters', level: 'phd', role: 'co', start: 2026, end: null },
+  { name: 'Martin Henriksen', level: 'msc', role: 'main', end: null },
+  { name: 'Anne Marie Pettersen', level: 'msc', role: 'co', end: null },
+  { name: 'Mohammad Ali Noman Reza', level: 'phd', role: 'co', start: 2021, end: 2025 },
+  { name: 'Oda Andreassen', level: 'msc', role: 'main', end: 2025 },
+];
+
 export const supervision = {
-  phd: [
-    { name: 'Sigrid Hoven', start: 2026, end: null, role: { en: 'Co-supervisor', no: 'Medveileder' } },
-    { name: 'Luana Hernández Wolters', start: 2026, end: null, role: { en: 'Co-supervisor', no: 'Medveileder' } },
-    { name: 'Mohammad Ali Noman Reza', start: 2021, end: 2025, role: { en: 'Co-supervisor', no: 'Medveileder' } },
-  ],
+  phd: students
+    .filter((s) => s.level === 'phd' && s.start !== undefined)
+    .map((s) => ({ name: s.name, start: s.start!, end: s.end, role: roleLabel[s.role] })),
   msc: [
     {
       text: {

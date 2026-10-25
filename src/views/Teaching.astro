@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { t, useTranslations, type Lang } from '../i18n';
 import { profile } from '../data/profile';
-import { courses, supervision } from '../data/cv';
+import { courses, levelLabel, roleLabel, students, supervision, type Student } from '../data/cv';
 
 interface Props {
   lang: Lang;
@@ -12,6 +12,12 @@ const { lang } = Astro.props;
 const tr = useTranslations(lang);
 const range = (start: number, end?: number | null) =>
   end === undefined ? `${start}` : `${start}–${end ?? tr('cv.present')}`;
+const studentDates = (s: Student) =>
+  s.start !== undefined ? range(s.start, s.end) : s.end !== null ? `${s.end}` : tr('teaching.ongoing');
+const groups = [
+  { title: tr('teaching.current'), list: students.filter((s) => s.end === null) },
+  { title: tr('teaching.former'), list: students.filter((s) => s.end !== null) },
+].filter((g) => g.list.length > 0);
 ---
 
 <Base lang={lang} route="teaching" title={tr('nav.teaching')}>
@@ -47,20 +53,32 @@ const range = (start: number, end?: number | null) =>
 
     <section>
       <h2>{tr('teaching.supervision')}</h2>
-      <div class="card">
-        <h3>{lang === 'no' ? 'Ph.d.' : 'PhD'}</h3>
-        <ul>
-          {
-            supervision.phd.map((s) => (
-              <li>
-                <strong>{s.name}</strong> – {t(s.role, lang).toLowerCase()}, {range(s.start, s.end)}
-              </li>
-            ))
-          }
-        </ul>
-        <h3>{lang === 'no' ? 'Master' : 'MSc'}</h3>
-        <ul>{supervision.msc.map((s) => <li>{t(s.text, lang)}</li>)}</ul>
-      </div>
+      {
+        groups.map((g) => (
+          <div class="group">
+            <h3>{g.title}</h3>
+            <ul class="students-list card">
+              {g.list.map((s) => (
+                <li class="student">
+                  <div class="who">
+                    <span class="tag">{t(levelLabel[s.level], lang)}</span>
+                    <strong>{s.name}</strong>
+                  </div>
+                  <p class="meta">
+                    {t(roleLabel[s.role], lang)} · {studentDates(s)}
+                  </p>
+                  {s.title && (
+                    <p class="thesis">{s.url ? <a href={s.url}>{s.title}</a> : s.title}</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+      <p class="totals muted">
+        {tr('teaching.totals')}: {supervision.msc.map((s) => t(s.text, lang)).join('; ')}.
+      </p>
     </section>
 
     <section id="prospective">
@@ -103,15 +121,48 @@ const range = (start: number, end?: number | null) =>
     margin-top: 0.75rem !important;
     font-weight: 500;
   }
-  ul {
-    margin: 0 0 1.5rem;
-    padding-left: 1.2rem;
+  .group + .group {
+    margin-top: 1.75rem;
   }
-  ul:last-child {
-    margin-bottom: 0;
+  .group h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
   }
-  li + li {
-    margin-top: 0.35rem;
+  .students-list {
+    list-style: none;
+    margin: 0;
+    padding-block: 0.25rem;
+  }
+  .student {
+    padding-block: 0.9rem;
+  }
+  .student + .student {
+    border-top: 1px solid var(--border);
+  }
+  .who {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .who .tag {
+    min-width: 3.5rem;
+    text-align: center;
+  }
+  .meta,
+  .thesis {
+    margin: 0.2rem 0 0;
+    font-size: 0.95rem;
+  }
+  .meta {
+    color: var(--muted);
+  }
+  .thesis {
+    font-style: italic;
+  }
+  .totals {
+    margin: 1.25rem 0 0;
+    font-size: 0.95rem;
   }
   .cta {
     background: var(--surface-2);

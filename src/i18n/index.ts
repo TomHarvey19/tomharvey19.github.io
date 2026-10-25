@@ -96,6 +96,10 @@ export const ui = {
     'teaching.prospectiveText':
       'I welcome master’s and PhD students interested in functional genomics, CRISPR screening, genome editing and cell-based models of domesticated animals. Projects usually combine wet-lab work with bioinformatic analysis of sequencing data. If this sounds interesting, send me an email with a short note about your background and interests.',
     'teaching.students': 'students per semester',
+    'teaching.current': 'Current students',
+    'teaching.former': 'Former students',
+    'teaching.ongoing': 'ongoing',
+    'teaching.totals': 'In total since 2017',
     'notfound.title': 'Page not found',
     'notfound.text': 'The page you were looking for does not exist or has moved.',
     'notfound.home': 'Go to the front page',
@@ -158,6 +162,10 @@ export const ui = {
     'teaching.prospectiveText':
       'Jeg tar gjerne imot master- og doktorgradsstudenter som er interessert i funksjonell genomikk, CRISPR-screening, genredigering og cellemodeller for domestiserte dyr. Prosjektene kombinerer vanligvis laboratoriearbeid med bioinformatisk analyse av sekvensdata. Høres dette spennende ut, send meg en e-post med noen ord om bakgrunnen og interessene dine.',
     'teaching.students': 'studenter per semester',
+    'teaching.current': 'Nåværende studenter',
+    'teaching.former': 'Tidligere studenter',
+    'teaching.ongoing': 'pågående',
+    'teaching.totals': 'Totalt siden 2017',
     'notfound.title': 'Fant ikke siden',
     'notfound.text': 'Siden du lette etter finnes ikke, eller den er flyttet.',
     'notfound.home': 'Gå til forsiden',
