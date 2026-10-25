@@ -354,7 +354,7 @@ export const students: Student[] = [
     role: 'main',
     start: 2026,
     end: null,
-    title: 'Development of a Cas9 expression systems in Atlantic salmon cells',
+    title: 'Development of a Cas expression systems in Atlantic salmon cells',
   },
   {
     name: 'Anne Marie Pettersen',
