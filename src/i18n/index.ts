@@ -26,7 +26,7 @@ export const navOrder: RouteKey[] = ['research', 'publications', 'teaching', 'cv
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-/** Prefix a site-relative path with the deploy base (e.g. /Toms-website). */
+/** Prefix a site-relative path with the deploy base, if Astro's `base` is set. */
 export function withBase(path: string): string {
   return `${base}/${path.replace(/^\//, '')}`;
 }

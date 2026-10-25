@@ -2,7 +2,7 @@
 
 Personal research website in English and Norwegian (bokmål), built with [Astro](https://astro.build) and published on GitHub Pages.
 
-Live site: https://tomharvey19.github.io/Toms-website/
+Live site: https://tomharvey19.github.io/
 
 ## Editing content
 
@@ -33,7 +33,7 @@ Requires Node 22 or newer.
 
 ```sh
 npm install
-npm run dev      # http://localhost:4321/Toms-website/
+npm run dev      # http://localhost:4321/
 npm run build    # type-check and build to dist/
 ```
 
@@ -45,7 +45,7 @@ One-time setup: in the GitHub repository, open **Settings → Pages** and set **
 ### Moving to a custom domain later
 
 1. Buy the domain and point it at GitHub Pages ([GitHub's guide](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)).
-2. In `astro.config.mjs`, set `site` to the new domain and delete the `base` line.
+2. In `astro.config.mjs`, set `site` to the new domain.
 3. Add the domain under **Settings → Pages → Custom domain**.
 
 ## Structure
