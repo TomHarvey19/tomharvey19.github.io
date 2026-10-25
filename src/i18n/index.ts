@@ -94,7 +94,7 @@ export const ui = {
     'teaching.supervision': 'Student supervision',
     'teaching.prospective': 'Prospective students',
     'teaching.prospectiveText':
-      'I supervise master’s and PhD students working with functional genomics, CRISPR screening, genome editing and cell-based models of domesticated animals. Projects usually combine wet-lab work with bioinformatic analysis of sequencing data. If this sounds interesting, send me an email with a short description about your background and interests and we can discuss potential opportunities.',
+      'I supervise master’s and PhD students working with functional genomics, CRISPR screening, genome editing and cell-based models of domesticated animals. Projects usually combine wet-lab work with bioinformatic analysis of sequencing data. If this sounds interesting, send me an email with a short description of your background and interests and we can discuss potential opportunities.',
     'teaching.students': 'students per semester',
     'teaching.phd': 'PhD students',
     'teaching.msc': 'Master’s students',
