@@ -347,7 +347,14 @@ export const roleLabel: Record<Student['role'], Localized> = {
 // Shown on the Teaching page; current students first, then most recently finished.
 export const students: Student[] = [
   { name: 'Sigrid Hoven', level: 'phd', role: 'co', start: 2026, end: null },
-  { name: 'Luana Hernández Wolters', level: 'phd', role: 'co', start: 2026, end: null },
+  {
+    name: 'Luana Hernández Wolters',
+    level: 'phd',
+    role: 'co',
+    start: 2026,
+    end: null,
+    title: 'Optimization of advanced assisted reproductive technologies in pigs',
+  },
   {
     name: 'Martin Henriksen',
     level: 'msc',
