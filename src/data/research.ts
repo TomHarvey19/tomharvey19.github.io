@@ -28,8 +28,8 @@ export const themes: ResearchTheme[] = [
         no: 'En CRISPR-knockout-screen slår ut tusenvis av gener parallelt i en populasjon av celler, og undersøker deretter hvilke knockouts som endrer cellenes egenskaper – om de overlever, vokser eller motstår infeksjon. Metoden har revolusjonert forskning på mennesker og mus, men er nesten ikke tatt i bruk for husdyr og fisk.',
       },
       {
-        en: 'I have built genome-wide CRISPR screening platforms for pig and cattle cells, including one of the first maps of essential genes across a livestock genome. Together with methods for efficient gene delivery and editing in salmon cells, this work now underpins the PetriFish project, which brings genome-wide screening to Atlantic salmon.',
-        no: 'Jeg har bygget opp plattformer for genomvid CRISPR-screening i celler fra gris og storfe, blant annet en av de første oversiktene over essensielle gener i genomet til et husdyr. Sammen med metoder for effektiv genoverføring og genredigering i lakseceller danner dette arbeidet grunnlaget for prosjektet PetriFish, som tar genomvid screening i bruk på atlantisk laks.',
+        en: 'Our group has built genome-wide CRISPR screening platforms for pig and cattle cells, including one of the first maps of essential genes across a livestock genome. Together with methods for efficient gene delivery and editing in salmon cells, this work now underpins the PetriFish project, which brings genome-wide screening to Atlantic salmon.',
+        no: 'Gruppen vår har bygget opp plattformer for genomvid CRISPR-screening i celler fra gris og storfe, blant annet en av de første oversiktene over essensielle gener i genomet til et husdyr. Sammen med metoder for effektiv genoverføring og genredigering i lakseceller danner dette arbeidet grunnlaget for prosjektet PetriFish, som tar genomvid screening i bruk på atlantisk laks.',
       },
     ],
   },
@@ -49,8 +49,8 @@ export const themes: ResearchTheme[] = [
         no: 'Infeksjonssykdommer er blant de største utfordringene for dyrevelferd og bærekraft i havbruk og husdyrhold. I dag måles sykdomsresistens i lakseavl i stor grad gjennom smitteforsøk der fisk blir infisert med vilje. Cellebaserte screener kan finne resistensgener raskere og redusere behovet for slike forsøk.',
       },
       {
-        en: 'My group uses gene knockouts and transcriptomics to study how salmon cells respond to viruses such as ISAV and IPNV, how interferon signalling shapes antiviral defence, and how pig cells interact with bacterial toxins.',
-        no: 'Gruppen min bruker genknockouts og transkriptomikk for å undersøke hvordan lakseceller reagerer på virus som ILA-virus og IPN-virus, hvordan interferonsignalering former forsvaret mot virus, og hvordan griseceller samhandler med bakterietoksiner.',
+        en: 'Our group uses gene knockouts and transcriptomics to study how salmon cells respond to viruses such as ISAV and IPNV, how interferon signalling shapes antiviral defence, and how pig cells interact with bacterial toxins.',
+        no: 'Gruppen vår bruker genknockouts og transkriptomikk for å undersøke hvordan lakseceller reagerer på virus som ILA-virus og IPN-virus, hvordan interferonsignalering former forsvaret mot virus, og hvordan griseceller samhandler med bakterietoksiner.',
       },
     ],
   },
