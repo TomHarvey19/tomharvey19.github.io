@@ -350,7 +350,15 @@ export const students: Student[] = [
   { name: 'Luana Hernández Wolters', level: 'phd', role: 'co', start: 2026, end: null },
   { name: 'Martin Henriksen', level: 'msc', role: 'main', start: 2026, end: null },
   { name: 'Anne Marie Pettersen', level: 'msc', role: 'co', start: 2026, end: null },
-  { name: 'Oda Andreassen', level: 'msc', role: 'main', start: 2025, end: 2026 },
+  {
+    name: 'Oda Andreassen',
+    level: 'msc',
+    role: 'main',
+    start: 2025,
+    end: 2026,
+    title: 'Evaluation of Genome Editing Strategies in Atlantic Salmon Skin Fibroblast Cells',
+    url: 'https://nva.sikt.no/registration/01a03cdf97d4-56b87cb0-7343-48f8-9b80-8f114d160288',
+  },
   { name: 'Mohammad Ali Noman Reza', level: 'phd', role: 'co', start: 2021, end: 2025 },
 ];
 
