@@ -14,7 +14,6 @@ const range = (start: number, end?: number | null) =>
   end === undefined ? `${start}` : `${start}–${end ?? tr('cv.present')}`;
 const studentDates = (s: Student) => {
   if (s.start === undefined) return s.end !== null ? `${s.end}` : tr('teaching.ongoing');
-  if (s.end === null && s.expectedEnd !== undefined) return `${s.start}–${s.expectedEnd}`;
   return range(s.start, s.end);
 };
 // Current students first, then by most recent completion.
