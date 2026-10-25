@@ -94,7 +94,7 @@ export const ui = {
     'teaching.supervision': 'Student supervision',
     'teaching.prospective': 'Prospective students',
     'teaching.prospectiveText':
-      'I welcome master’s and PhD students interested in functional genomics, CRISPR screening, genome editing and cell-based models of domesticated animals. Projects usually combine wet-lab work with bioinformatic analysis of sequencing data. If this sounds interesting, send me an email with a short note about your background and interests.',
+      'I supervise master’s and PhD students working with functional genomics, CRISPR screening, genome editing and cell-based models of domesticated animals. Projects usually combine wet-lab work with bioinformatic analysis of sequencing data. If this sounds interesting, send me an email with a short description about your background and interests and we can discuss potential opportunities.',
     'teaching.students': 'students per semester',
     'teaching.phd': 'PhD students',
     'teaching.msc': 'Master’s students',
@@ -162,7 +162,7 @@ export const ui = {
     'teaching.supervision': 'Veiledning av studenter',
     'teaching.prospective': 'For nye studenter',
     'teaching.prospectiveText':
-      'Jeg tar gjerne imot master- og doktorgradsstudenter som er interessert i funksjonell genomikk, CRISPR-screening, genredigering og cellemodeller for domestiserte dyr. Prosjektene kombinerer vanligvis laboratoriearbeid med bioinformatisk analyse av sekvensdata. Høres dette spennende ut, send meg en e-post med noen ord om bakgrunnen og interessene dine.',
+      'Jeg veileder master- og doktorgradsstudenter som arbeider med funksjonell genomikk, CRISPR-screening, genredigering og cellemodeller for domestiserte dyr. Prosjektene kombinerer vanligvis laboratoriearbeid med bioinformatisk analyse av sekvensdata. Høres dette spennende ut, send meg en e-post med en kort beskrivelse av bakgrunnen og interessene dine, så kan vi snakke om mulige prosjekter.',
     'teaching.students': 'studenter per semester',
     'teaching.phd': 'Ph.d.-kandidater',
     'teaching.msc': 'Masterstudenter',
