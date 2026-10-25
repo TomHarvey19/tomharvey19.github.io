@@ -333,6 +333,8 @@ export interface Student {
   start?: number;
   /** Year the degree was completed; null while ongoing. */
   end: number | null;
+  /** Planned completion year for an ongoing degree. */
+  expectedEnd?: number;
   /** Thesis title, in the language it was written in. */
   title?: string;
   /** Link to the thesis, e.g. in NMBU Brage. */
@@ -353,10 +355,10 @@ export const levelLabel: Record<Student['level'], Localized> = {
 export const students: Student[] = [
   { name: 'Sigrid Hoven', level: 'phd', role: 'co', start: 2026, end: null },
   { name: 'Luana Hernández Wolters', level: 'phd', role: 'co', start: 2026, end: null },
-  { name: 'Martin Henriksen', level: 'msc', role: 'main', end: null },
-  { name: 'Anne Marie Pettersen', level: 'msc', role: 'co', end: null },
+  { name: 'Martin Henriksen', level: 'msc', role: 'main', start: 2026, end: null, expectedEnd: 2027 },
+  { name: 'Anne Marie Pettersen', level: 'msc', role: 'co', start: 2026, end: null, expectedEnd: 2027 },
+  { name: 'Oda Andreassen', level: 'msc', role: 'main', start: 2025, end: 2026 },
   { name: 'Mohammad Ali Noman Reza', level: 'phd', role: 'co', start: 2021, end: 2025 },
-  { name: 'Oda Andreassen', level: 'msc', role: 'main', end: 2025 },
 ];
 
 export const supervision = {
