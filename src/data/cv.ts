@@ -410,8 +410,9 @@ export const students: Student[] = [
     name: 'Thea Marie Låstad',
     level: 'msc',
     role: 'main',
-    start: 2022,
-    end: 2023,
+    // NVA registers 2023; the thesis itself is dated 2022.
+    start: 2021,
+    end: 2022,
     title:
       'Pseudotyping lentiviral vectors for transduction of Salmo salar cells using glycoprotein from infectious salmon anaemia virus',
     url: 'https://nva.sikt.no/registration/01990ac5723f-bdde4af1-85a7-4635-8449-16e47069c77d',
