@@ -498,20 +498,20 @@ export const supervision = {
   phd: students
     .filter((s) => s.level === 'phd' && s.start !== undefined)
     .map((s) => ({ name: s.name, start: s.start!, end: s.end, role: roleLabel[s.role] })),
-  msc: [
-    {
+  msc: (['main', 'co'] as const).map((role) => {
+    // Counted from the students list so the totals stay in step with it.
+    const list = students.filter((s) => s.level === 'msc' && s.role === role);
+    const since = Math.min(...list.map((s) => s.start ?? s.end ?? Infinity));
+    const lastEnd = list.some((s) => s.end === null) ? null : Math.max(...list.map((s) => s.end ?? 0));
+    const until = { en: lastEnd ?? 'present', no: lastEnd ?? 'nå' };
+    const roleName = { en: roleLabel[role].en.toLowerCase(), no: roleLabel[role].no.toLowerCase() };
+    return {
       text: {
-        en: '10 master’s students as main supervisor (2021–present)',
-        no: '10 masterstudenter som hovedveileder (2021–nå)',
+        en: `${list.length} master’s students as ${roleName.en} (${since}–${until.en})`,
+        no: `${list.length} masterstudenter som ${roleName.no} (${since}–${until.no})`,
       },
-    },
-    {
-      text: {
-        en: '6 master’s students as co-supervisor (2017–present)',
-        no: '6 masterstudenter som medveileder (2017–nå)',
-      },
-    },
-  ],
+    };
+  }),
 };
 
 export const service: Entry[] = [
