@@ -24,8 +24,8 @@ const years = [...new Set(articles.map((p) => p.year))];
       <h1>{tr('nav.publications')}</h1>
       <p class="lede">{tr('pubs.intro')}</p>
       <p class="profiles">
-        {tr('pubs.profiles')}
-        <a href={profile.links.scholar}>Google Scholar</a> ·
+        {tr('pubs.profiles')}{' '}
+        <a href={profile.links.scholar}>Google Scholar</a>{' · '}
         <a href={profile.links.orcid}>ORCID</a>
       </p>
     </div>
