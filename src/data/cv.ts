@@ -348,7 +348,14 @@ export const roleLabel: Record<Student['role'], Localized> = {
 export const students: Student[] = [
   { name: 'Sigrid Hoven', level: 'phd', role: 'co', start: 2026, end: null },
   { name: 'Luana Hernández Wolters', level: 'phd', role: 'co', start: 2026, end: null },
-  { name: 'Martin Henriksen', level: 'msc', role: 'main', start: 2026, end: null },
+  {
+    name: 'Martin Henriksen',
+    level: 'msc',
+    role: 'main',
+    start: 2026,
+    end: null,
+    title: 'Development of a Cas9 expression systems in Atlantic salmon cells',
+  },
   {
     name: 'Anne Marie Pettersen',
     level: 'msc',
