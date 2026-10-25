@@ -388,6 +388,25 @@ export const students: Student[] = [
     url: 'https://nva.sikt.no/registration/019a0be1f173-60e84f72-6c5d-4b2b-ac82-5779979fc58e',
   },
   {
+    name: 'Henriette Sofie Ross Pedersen',
+    level: 'msc',
+    role: 'main',
+    start: 2024,
+    end: 2025,
+    title: 'Discovery of host factors for PCV2 infection in porcine cells using genome-wide CRISPR screening',
+    url: 'https://nva.sikt.no/registration/019a0be1a799-5904e3cc-fb02-4e3e-8e19-5dde833480d7',
+  },
+  {
+    name: 'Andrine Martinsen',
+    level: 'msc',
+    role: 'main',
+    start: 2022,
+    end: 2023,
+    title:
+      'Development of CRISPR screenable phenotypes for PCV2 in pig cells and detection of latent BVDV contamination in commercial FBS',
+    url: 'https://nva.sikt.no/registration/01990ac915c8-62ad9676-0e28-4adb-8fb1-adb5538e7e32',
+  },
+  {
     name: 'Thea Marie Låstad',
     level: 'msc',
     role: 'main',
@@ -416,6 +435,15 @@ export const students: Student[] = [
     url: 'https://nva.sikt.no/registration/01990ac9e6ff-62b2e5c5-601f-4a6a-b366-d39e5f6ae531',
   },
   {
+    name: 'Shawline Ema',
+    level: 'msc',
+    role: 'co',
+    start: 2021,
+    end: 2022,
+    title: 'Functional interrogation of the elovl5 gene regulation in Atlantic salmon',
+    url: 'https://nva.sikt.no/registration/01990ac71355-7f5ff92b-2677-4b4a-8bcf-06d19b7c68c6',
+  },
+  {
     name: 'Jostein Arntsen',
     level: 'msc',
     role: 'main',
@@ -424,7 +452,24 @@ export const students: Student[] = [
     title: 'Cloning and characterization of Cas9 in IPEC-J2 cells for CRISPR screens against porcine E. coli pathogen',
     url: 'https://nva.sikt.no/registration/01990ace838c-49116424-32e0-4367-854d-998dc4c5fb6b',
   },
-  { name: 'Mohammad Ali Noman Reza', level: 'phd', role: 'co', start: 2021, end: 2025 },
+  {
+    name: 'Ragnhild Wilberg',
+    level: 'msc',
+    role: 'co',
+    start: 2019,
+    end: 2020,
+    title: 'Optimization of transfection of primary hepatocytes from Atlantic salmon for functional studies',
+    url: 'https://nva.sikt.no/registration/019909ad9a7f-fb50b973-03cc-4544-b5bc-22a1a88f9e72',
+  },
+  {
+    name: 'Mohammad Ali Noman Reza',
+    level: 'phd',
+    role: 'co',
+    start: 2021,
+    end: 2025,
+    title: 'Understanding viral resistance in Atlantic salmon cells through transcriptomics and genome editing',
+    url: 'https://nva.sikt.no/registration/01990acb1a4b-480ba3d0-3733-4b71-90de-d813922494ce',
+  },
 ];
 
 export const supervision = {
