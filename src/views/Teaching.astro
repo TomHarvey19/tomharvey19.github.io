@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { t, useTranslations, type Lang } from '../i18n';
 import { profile } from '../data/profile';
-import { courses, levelLabel, roleLabel, students, supervision, type Student } from '../data/cv';
+import { courses, roleLabel, students, supervision, type Student } from '../data/cv';
 
 interface Props {
   lang: Lang;
@@ -17,9 +17,12 @@ const studentDates = (s: Student) => {
   if (s.end === null && s.expectedEnd !== undefined) return `${s.start}–${s.expectedEnd}`;
   return range(s.start, s.end);
 };
+// Current students first, then by most recent completion.
+const byRecency = (a: Student, b: Student) =>
+  (b.end ?? Infinity) - (a.end ?? Infinity) || (b.start ?? 0) - (a.start ?? 0);
 const groups = [
-  { title: tr('teaching.current'), list: students.filter((s) => s.end === null) },
-  { title: tr('teaching.former'), list: students.filter((s) => s.end !== null) },
+  { title: tr('teaching.phd'), list: students.filter((s) => s.level === 'phd').sort(byRecency) },
+  { title: tr('teaching.msc'), list: students.filter((s) => s.level === 'msc').sort(byRecency) },
 ].filter((g) => g.list.length > 0);
 ---
 
@@ -63,12 +66,14 @@ const groups = [
             <ul class="students-list card">
               {g.list.map((s) => (
                 <li class="student">
-                  <div class="who">
-                    <span class="tag">{t(levelLabel[s.level], lang)}</span>
-                    <strong>{s.name}</strong>
-                  </div>
+                  <strong class="name">{s.name}</strong>
                   <p class="meta">
-                    {t(roleLabel[s.role], lang)} · {studentDates(s)}
+                    <span>
+                      {t(roleLabel[s.role], lang)} · {studentDates(s)}
+                    </span>
+                    <span class={s.end === null ? 'tag' : 'tag done'}>
+                      {s.end === null ? tr('teaching.statusCurrent') : tr('teaching.statusDone')}
+                    </span>
                   </p>
                   {s.title && (
                     <p class="thesis">{s.url ? <a href={s.url}>{s.title}</a> : s.title}</p>
@@ -142,15 +147,18 @@ const groups = [
   .student + .student {
     border-top: 1px solid var(--border);
   }
-  .who {
+  .name {
+    font-weight: 600;
+  }
+  .meta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.35rem 0.6rem;
   }
-  .who .tag {
-    min-width: 3.5rem;
-    text-align: center;
+  .meta .tag.done {
+    background: var(--surface-2);
+    color: var(--muted);
   }
   .meta,
   .thesis {

@@ -346,11 +346,6 @@ export const roleLabel: Record<Student['role'], Localized> = {
   co: { en: 'Co-supervisor', no: 'Medveileder' },
 };
 
-export const levelLabel: Record<Student['level'], Localized> = {
-  phd: { en: 'PhD', no: 'Ph.d.' },
-  msc: { en: 'MSc', no: 'Master' },
-};
-
 // Shown on the Teaching page; current students first, then most recently finished.
 export const students: Student[] = [
   { name: 'Sigrid Hoven', level: 'phd', role: 'co', start: 2026, end: null },
