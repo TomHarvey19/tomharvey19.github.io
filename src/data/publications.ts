@@ -24,6 +24,15 @@ export const selfPattern = /^Harvey, T/;
 // Newest first. Add new papers at the top of the matching year.
 export const publications: Publication[] = [
   {
+    title: 'Whole genome screening defines a key role of autophagy in resistance of bovine cells to BVDV infection',
+    authors: ['Riedel, C.', 'Chen, H.', 'Rümenapf, T.', 'Grebien, F.', 'van Son, M.', 'Harvey, T.N.', 'Kent, M.P.', 'Boyartchuk, V.'],
+    year: 2026,
+    venue: 'bioRxiv',
+    doi: '10.64898/2026.03.24.712903',
+    type: 'preprint',
+    themes: ['crispr', 'host-pathogen'],
+  },
+  {
     title: 'Genome-wide CRISPR knockout screen reveals the landscape of essential genes across the porcine genome',
     authors: ['Harvey, T.N.', 'Boyartchuk, V.', 'van Son, M.', 'Gjuvsland, A.B.', 'Grindflek, E.', 'Kent, M.P.'],
     year: 2025,
