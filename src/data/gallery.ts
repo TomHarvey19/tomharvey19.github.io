@@ -22,7 +22,7 @@ export type Slide =
       /** Shown under the image. May contain <i> for species names. */
       caption: Localized;
       /** Who took the image; shown after the caption. */
-      credit?: string;
+      credit?: Localized | string;
     };
 
 export const gallery: Slide[] = [
@@ -44,6 +44,6 @@ export const gallery: Slide[] = [
       en: 'The dinoflagellate <i>Crypthecodinium cohnii</i>, an industrial producer of the omega-3 fatty acid DHA, with its long flagellum. We are sequencing its unusually large genome. Scale bar: 2 µm.',
       no: 'Dinoflagellaten <i>Crypthecodinium cohnii</i>, en industriell produsent av omega-3-fettsyren DHA, med den lange flagellen. Vi sekvenserer det uvanlig store genomet. Målestokk: 2 µm.',
     },
-    credit: 'Thomas N. Harvey',
+    credit: { en: 'Thomas N. Harvey and Gareth Gillard', no: 'Thomas N. Harvey og Gareth Gillard' },
   },
 ];

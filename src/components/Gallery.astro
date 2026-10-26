@@ -38,7 +38,7 @@ const many = gallery.length > 1;
               />
               <p class="caption">
                 <Fragment set:html={t(slide.caption, lang)} />
-                {slide.credit && <span class="credit"> {tr('gallery.credit')}: {slide.credit}.</span>}
+                {slide.credit && <span class="credit"> {tr('gallery.credit')}: {t(slide.credit, lang)}.</span>}
               </p>
             </figure>
           )}
