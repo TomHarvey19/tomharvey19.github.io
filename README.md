@@ -27,6 +27,8 @@ python3 scripts/mageck-to-screen.py path/to/gene_summary.txt
 
 then update the title, caption and source in `src/data/screen.ts`. Genes with `fdr` at or below `hitFdr` are highlighted; list gene names in `labels` to name them on the plot.
 
+**Front-page gallery:** the slides next to the intro are listed in `src/data/gallery.ts` (the screen figure first, then photos). To add a photo, save web-sized copies as `public/images/<name>-800.webp` and `public/images/<name>-1600.webp` and add an `image` entry with its title, alt text, caption and credit in both languages.
+
 ## Running locally
 
 Requires Node 22 or newer.

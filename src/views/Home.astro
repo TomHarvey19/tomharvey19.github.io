@@ -7,7 +7,7 @@ import { profile } from '../data/profile';
 import { themes } from '../data/research';
 import { publications } from '../data/publications';
 import { projects } from '../data/cv';
-import ScreenPlot from '../components/ScreenPlot.astro';
+import Gallery from '../components/Gallery.astro';
 
 interface Props {
   lang: Lang;
@@ -36,7 +36,7 @@ const featured = publications.filter((p) => p.featured);
         <ProfileLinks lang={lang} />
       </div>
       <div class="figure">
-        <ScreenPlot lang={lang} />
+        <Gallery lang={lang} />
       </div>
     </div>
   </section>
